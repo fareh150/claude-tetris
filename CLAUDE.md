@@ -22,3 +22,7 @@ Three files: `index.html` (DOM, canvases `#board` 300×600 and `#next-canvas`, `
 - Speed: `max(100, 1000 - (level-1)*90)` ms, set in `clearLines`; level = `floor(lines/10)+1`.
 - Changing `COLS`/`ROWS`/`BLOCK` requires updating the `<canvas id="board">` width/height in `index.html` manually.
 - `togglePause` restarts `loop` with a fresh `lastTime` to avoid a big `dt` jump; `endGame` cancels the rAF.
+
+## Theme
+
+Dark by default; `#theme-toggle` (panel) switches to light. Colors are CSS variables in `style.css` (`:root` dark, `:root[data-theme="light"]`). `applyTheme(theme, persist)` in `game.js` sets `data-theme`, caches `--grid`/`--highlight` into `gridColor`/`highlightColor` (canvas can't use CSS vars), saves to `localStorage` (`tetris-theme`, try/catch) and redraws (needed while paused/game over). It runs before `init()`; the toggle `blur()`s so Space doesn't activate it.
