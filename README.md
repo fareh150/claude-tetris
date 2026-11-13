@@ -86,6 +86,8 @@ Después abre `http://localhost:8000` en el navegador.
 | `Espacio` | Hard drop (caída instantánea)     |
 | `P`       | Pausar / reanudar                 |
 
+**Tema:** el juego arranca en modo oscuro. Con el interruptor `TEMA` del panel lateral puedes cambiar a modo claro; la preferencia se guarda en `localStorage`.
+
 ---
 
 ## Cómo funciona

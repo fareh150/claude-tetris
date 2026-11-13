@@ -39,6 +39,12 @@ const overlay = document.getElementById('overlay');
 const overlayTitle = document.getElementById('overlay-title');
 const overlayScore = document.getElementById('overlay-score');
 const restartBtn = document.getElementById('restart-btn');
+const themeToggle = document.getElementById('theme-toggle');
+const themeText = document.getElementById('theme-text');
+
+const THEME_KEY = 'tetris-theme';
+let gridColor = '#22222e';
+let highlightColor = 'rgba(255,255,255,0.12)';
 
 let board, current, next, score, lines, level, paused, gameOver, lastTime, dropAccum, dropInterval, animId;
 
@@ -163,13 +169,13 @@ function drawBlock(context, x, y, colorIndex, size, alpha) {
   context.fillStyle = color;
   context.fillRect(x * size + 1, y * size + 1, size - 2, size - 2);
   // highlight
-  context.fillStyle = 'rgba(255,255,255,0.12)';
+  context.fillStyle = highlightColor;
   context.fillRect(x * size + 1, y * size + 1, size - 2, 4);
   context.globalAlpha = 1;
 }
 
 function drawGrid() {
-  ctx.strokeStyle = '#22222e';
+  ctx.strokeStyle = gridColor;
   ctx.lineWidth = 0.5;
   for (let c = 1; c < COLS; c++) {
     ctx.beginPath();
@@ -300,5 +306,32 @@ document.addEventListener('keydown', e => {
 });
 
 restartBtn.addEventListener('click', init);
+
+function applyTheme(theme, persist) {
+  if (theme !== 'light') theme = 'dark';
+  document.documentElement.dataset.theme = theme;
+  const styles = getComputedStyle(document.documentElement);
+  gridColor = styles.getPropertyValue('--grid').trim() || gridColor;
+  highlightColor = styles.getPropertyValue('--highlight').trim() || highlightColor;
+  themeToggle.setAttribute('aria-checked', String(theme === 'light'));
+  themeText.textContent = theme === 'light' ? 'Claro' : 'Oscuro';
+  if (persist) {
+    try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* almacenamiento no disponible */ }
+  }
+  // Redibujar (el loop está detenido en pausa / game over); antes de init() no hay partida
+  if (current && next) {
+    draw();
+    drawNext();
+  }
+}
+
+themeToggle.addEventListener('click', () => {
+  applyTheme(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light', true);
+  themeToggle.blur(); // evita que Space (caída dura) active el botón
+});
+
+let savedTheme = null;
+try { savedTheme = localStorage.getItem(THEME_KEY); } catch (e) { /* ignorar */ }
+applyTheme(savedTheme === 'light' ? 'light' : 'dark', false);
 
 init();
