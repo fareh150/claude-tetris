@@ -23,6 +23,8 @@ Three files: `index.html` (DOM, canvases `#board` 300×600 and `#next-canvas`, `
 - Changing `COLS`/`ROWS`/`BLOCK` requires updating the `<canvas id="board">` width/height in `index.html` manually.
 - `togglePause` restarts `loop` with a fresh `lastTime` to avoid a big `dt` jump; `endGame` cancels the rAF.
 
+- Records: block near end of `game.js`; `localStorage` key `ftetris.records` (`{top[5], bestCombo, maxLines}`), all access in try/catch. `#start-screen` overlay gates the game (`started` flag, `startGame()`; initial `init()` loop is cancelled by `showStartScreen`); `endGame` → `showGameOverRecords()`; combo tracked via `trackCombo(cleared)` in `clearLines`. Keydown ignores input targets. `loop` does not re-queue after game over.
+
 ## Theme
 
 Dark by default; `#theme-toggle` (panel) switches to light. Colors are CSS variables in `style.css` (`:root` dark, `:root[data-theme="light"]`). `applyTheme(theme, persist)` in `game.js` sets `data-theme`, caches `--grid`/`--highlight` into `gridColor`/`highlightColor` (canvas can't use CSS vars), saves to `localStorage` (`tetris-theme`, try/catch) and redraws (needed while paused/game over). It runs before `init()`; the toggle `blur()`s so Space doesn't activate it.

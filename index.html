@@ -56,7 +56,27 @@
       <div class="overlay-box">
         <p id="overlay-title">GAME OVER</p>
         <p id="overlay-score"></p>
+        <div id="over-records-box" class="records-box hidden">
+          <div id="over-records"></div>
+          <div id="name-form" class="name-form hidden">
+            <input id="name-input" type="text" maxlength="12" placeholder="Tu nombre" autocomplete="off" />
+            <button id="save-name-btn" type="button">Guardar</button>
+          </div>
+          <button type="button" class="reset-records-btn">Borrar récords</button>
+        </div>
         <button id="restart-btn">Reiniciar</button>
+      </div>
+    </div>
+
+    <div id="start-screen" class="overlay">
+      <div class="overlay-box">
+        <p class="start-title">F-TETRIS</p>
+        <div class="records-box">
+          <p class="label">RÉCORDS</p>
+          <div id="start-records"></div>
+        </div>
+        <button id="start-btn" type="button">Jugar</button>
+        <button type="button" class="reset-records-btn">Borrar récords</button>
       </div>
     </div>
   </div>
