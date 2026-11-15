@@ -28,3 +28,4 @@ Three files: `index.html` (DOM, canvases `#board` 300×600 and `#next-canvas`, `
 ## Theme
 
 Dark by default; `#theme-toggle` (panel) switches to light. Colors are CSS variables in `style.css` (`:root` dark, `:root[data-theme="light"]`). `applyTheme(theme, persist)` in `game.js` sets `data-theme`, caches `--grid`/`--highlight` into `gridColor`/`highlightColor` (canvas can't use CSS vars), saves to `localStorage` (`tetris-theme`, try/catch) and redraws (needed while paused/game over). It runs before `init()`; the toggle `blur()`s so Space doesn't activate it.
+- Skins: `SKINS` (`retro|neon|pastel|pixel`) each with `colors[8]`, `bg`, `grid` (null = CSS/theme) and `drawBlock(ctx,px,py,color,size)`. `COLORS` is a `let` derived from the active skin by `applySkin` (persists in `localStorage` `ftetris.skin`, redraws board+next). `drawBlock(context,x,y,idx,size,alpha)` delegates to the skin; `paintBg` paints `skin.bg`.
