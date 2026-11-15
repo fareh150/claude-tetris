@@ -88,6 +88,8 @@ Después abre `http://localhost:8000` en el navegador.
 
 **Tema:** el juego arranca en modo oscuro. Con el interruptor `TEMA` del panel lateral puedes cambiar a modo claro; la preferencia se guarda en `localStorage`.
 
+**Skins:** el selector `ASPECTO` ofrece Retro, Neon, Pastel y Arte pixelado; se aplica al instante y se guarda en `localStorage` (`ftetris.skin`).
+
 ---
 
 ## Cómo funciona
