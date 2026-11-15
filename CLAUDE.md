@@ -19,9 +19,9 @@ Three files: `index.html` (DOM, canvases `#board` 300×600 and `#next-canvas`, `
 - Flow: `loop` (rAF, accumulates `dropAccum` vs `dropInterval`) → `lockPiece` → `merge` → `clearLines` → `spawn` (calls `endGame` if new piece collides).
 - `loop` gravity step and `softDrop` are separate code paths; score for soft drop (+1/row) and hard drop (+2/row) is added in the input handlers, not the loop.
 - Rotation: `rotateCW` + `tryRotate` kicks `[0,-1,1,-2,2]` horizontally only.
-- Speed: `max(100, 1000 - (level-1)*90)` ms, set in `clearLines`; level = `floor(lines/10)+1`.
+- Speed: `max(100, 1000 - (level-1)*90)` ms, set in `clearLines`; level = `max(startLevel, floor(lines/10)+1)` (`startLevel` from the pause-menu `#start-level` select, read in `init()`).
 - Changing `COLS`/`ROWS`/`BLOCK` requires updating the `<canvas id="board">` width/height in `index.html` manually.
-- `togglePause` restarts `loop` with a fresh `lastTime` to avoid a big `dt` jump; `endGame` cancels the rAF.
+- Pause (`P`/`Esc`) opens `#pause-menu` (separate from game-over `#overlay`): Reanudar / Reiniciar / Ver controles / Nivel inicial. While `paused`, keydown goes to `pauseMenuKey` only (game inputs ignored). `togglePause` restarts `loop` with a fresh `lastTime` to avoid a big `dt` jump; `endGame` cancels the rAF.
 
 - Records: block near end of `game.js`; `localStorage` key `ftetris.records` (`{top[5], bestCombo, maxLines}`), all access in try/catch. `#start-screen` overlay gates the game (`started` flag, `startGame()`; initial `init()` loop is cancelled by `showStartScreen`); `endGame` → `showGameOverRecords()`; combo tracked via `trackCombo(cleared)` in `clearLines`. Keydown ignores input targets. `loop` does not re-queue after game over.
 
